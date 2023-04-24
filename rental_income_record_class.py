@@ -11,7 +11,8 @@ class RentalIncomeRecord:
         """
         Constructs a list of tenant payment records.
 
-        income_records: The list of payments from tenants
+        rental_income_filename: The filename that contains income records
+        rental_income_records: The list of payments from tenants
         """
         self.rental_income_filename = rental_income_filename
         self.rental_income_records = load_data(self.rental_income_filename)
@@ -20,7 +21,7 @@ class RentalIncomeRecord:
     def add_income(self, month, apartment_number, amount):
         """
         Appends a dictionary of data for each rental payment to
-        the list.
+        the list.  Saves it into txt file.
 
         month: The month of the payment
         apartment_number: The apartment number of the tenant

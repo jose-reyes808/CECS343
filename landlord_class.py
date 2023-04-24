@@ -15,6 +15,7 @@ class Landlord:
         Constructs the list of tenants, the rental income record, expense record, 
         and the annual report using data from the previous two.
 
+        tenant_filename: The filename that contains the tenant list
         tenant_list: The list of tenant objects
         rental_income_record: The list of tenant payments to landlord
         expense_record: The list of payments the landlord made 
@@ -28,7 +29,8 @@ class Landlord:
 
     def add_tenant(self, aptNum, name, rate):
         """
-        Appends a new tenant to the list of tenants
+        Appends a new tenant to the list of tenants and saves it into the
+        tenants.txt file
 
         aptNum: The apartment number
         name: The name of the tenant

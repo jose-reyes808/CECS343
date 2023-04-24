@@ -7,39 +7,71 @@ from annual_report_class import AnnualReport
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 
+import webbrowser
+from threading import Timer
+
+import sys
+import os
+
+# Create web app address
+def open_browser():
+    webbrowser.open_new('http://localhost:5000')
+
+
 # Create the web application
 app = Flask(__name__)
-app.secret_key = "343group6" # username
+app.secret_key = "qwerty"
 
 # Landlord log in
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+# Defines default user class from flask_login library
 class User(UserMixin):
     def __init__(self, id):
         self.id = id
 
+# Store user ID in current session
 @login_manager.user_loader
 def load_user(user_id):
     return User(user_id)
 
-# Create the landlord object(tenant list, income record, expense record, annual report)
-landlord = Landlord('tenants.txt', 'rental_income_records.txt', 'expense_records.txt')
+# Check if the application is running as an executable
+if getattr(sys, 'frozen', False):
+    current_dir = sys._MEIPASS
+else:
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Load text files
+tenants_file = os.path.join(current_dir, 'tenants.txt')
+rental_income_records_file = os.path.join(current_dir, 'rental_income_records.txt')
+expense_records_file = os.path.join(current_dir, 'expense_records.txt')
+
+# Pass data from files to landlord class
+landlord = Landlord(tenants_file, rental_income_records_file, expense_records_file)
 
 # Display the home page
 @app.route('/')
 def index():
     return render_template('index.html')
 
+"""
+--------------------------------- LOGIN PAGE ---------------------------------
+"""
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        # Get user input from webpage
         username = request.form['username']
         password = request.form['password']
+
+        # Login to account if correct credentials input
         if username == '343group6' and password == 'landlord': # Replace 'password' with the actual password
             user = User(username)
             login_user(user)
+
+            # Send back to home page when finished
             return redirect(url_for('index'))
         else:
             flash('Invalid username or password')
@@ -153,4 +185,5 @@ def annual_report():
 
 # Run the application
 if __name__ == '__main__':
+    Timer(1, open_browser).start()  # Delay of 1 second before opening the browser
     app.run(debug=True)

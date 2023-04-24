@@ -9,7 +9,8 @@ class ExpenseRecord:
         Constructs a list for the expense record to hold the 
         information for each expense.
 
-        expense_records: The list of expenses
+        expense_filename: The filename that contains the expense records
+        expense_records: The list of expenses 
         """
         self.expense_filename = expense_filename
         self.expense_records = load_data(self.expense_filename)
@@ -17,7 +18,7 @@ class ExpenseRecord:
     def add_expense(self, date, payee, amount, category):
         """
         Appends a dictionary of data for each expense payment to
-        the list.
+        the list and saves it into a txt file.
 
         date: The date of the payment
         payee: Company or person paid by landlord
