@@ -8,7 +8,6 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 
 import webbrowser
-from threading import Timer
 
 import sys
 import os
@@ -185,5 +184,4 @@ def annual_report():
 
 # Run the application
 if __name__ == '__main__':
-    Timer(1, open_browser).start()  # Delay of 1 second before opening the browser
     app.run(debug=True)
